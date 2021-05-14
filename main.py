@@ -19,13 +19,21 @@ async def lookup(selection, keywords, ctx):
         "x-algolia-api-key": "6bfb5abee4dcd8cea8f0ca1ca085c2b3"
     }
     header = {
-        'accept': '*/*',
-        'accept-encoding': 'gzip, deflate, br',
-        'accept-language': 'en-US,en;q=0.9,ja-JP;q=0.8,ja;q=0.7,la;q=0.6',
-        'appos': 'web',
-        'appversion': '0.1',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'
+    'authority': 'stockx.com',
+    'cache-control': 'max-age=0',
+    'sec-ch-ua': '"Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99"',
+    'sec-ch-ua-mobile': '?0',
+    'upgrade-insecure-requests': '1',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36',
+    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+    'sec-fetch-site': 'none',
+    'sec-fetch-mode': 'navigate',
+    'sec-fetch-user': '?1',
+    'sec-fetch-dest': 'document',
+    'accept-language': 'en-US,en;q=0.9',
+    'if-none-match': 'W/"2fc70-vY91R0aLlO6Z2K01qdIx3qYBCx8"',
     }
+    
     with requests.Session() as session:
         r = session.post("https://xw7sbct9v6-dsn.algolia.net/1/indexes/products/query", params=algolia, verify=False, data=byte_payload, timeout=30)
         results = r.json()["hits"][selection]
@@ -46,7 +54,7 @@ async def lookup(selection, keywords, ctx):
 
     embed = discord.Embed(title='StockX Checker', color=0x13e79e)
     embed.set_thumbnail(url=results['thumbnail_url'])
-    embed.set_footer(text='https://github.com/kxvxnc')
+    embed.set_footer(text='https://github.com/ruthlesskoncept')
     embed.add_field(name='Product Name', value=f"[{general['title']}](https://stockx.com/{general['urlKey']})", inline=False)
     if 'styleId' in general:
         embed.add_field(name='SKU:', value=general['styleId'], inline=True)
