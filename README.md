@@ -1,3 +1,7 @@
+Forked to help keep it up-to-date and running. 
+-----------------------------------------------------------
+
+
 # Stockx-Discord-Bot
 This project is a discord bot that uses the Algolia search API to search products and uses that information in StockX's API to return data on a particular sneaker or piece of clothing.
 
