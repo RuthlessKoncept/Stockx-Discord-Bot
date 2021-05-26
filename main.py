@@ -54,7 +54,7 @@ async def lookup(selection, keywords, ctx):
 
     embed = discord.Embed(title='StockX Checker', color=0x13e79e)
     embed.set_thumbnail(url=results['thumbnail_url'])
-    embed.set_footer(text='https://github.com/ruthlesskoncept')
+    embed.set_footer(text='Made by https://github.com/kxvxnc | Updated by https://github.com/ruthlesskoncept')
     embed.add_field(name='Product Name', value=f"[{general['title']}](https://stockx.com/{general['urlKey']})", inline=False)
     if 'styleId' in general:
         embed.add_field(name='SKU:', value=general['styleId'], inline=True)
