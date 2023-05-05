@@ -14,28 +14,26 @@ async def lookup(selection, keywords, ctx):
     json_string = json.dumps({"params": f"query={keywords}&hitsPerPage=20&facets=*"})
     byte_payload = bytes(json_string, 'utf-8')
     algolia = {
-        "x-algolia-agent": "Algolia for vanilla JavaScript 3.32.0", 
-        "x-algolia-application-id": "XW7SBCT9V6", 
-        "x-algolia-api-key": "6b5e76b49705eb9f51a06d3c82f7acee"
+        "x-algolia-agent": "Algolia for JavaScript (4.8.4); Browser",
+        "x-algolia-application-id": "XW7SBCT9V6",
+        "x-algolia-api-key": "6b5e76b49705eb9f51a06d3c82f7acee",
     }
     header = {
-    'authority': 'stockx.com',
-    'cache-control': 'max-age=0',
-    'sec-ch-ua': '"Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99"',
-    'sec-ch-ua-mobile': '?0',
-    'upgrade-insecure-requests': '1',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36',
-    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-    'sec-fetch-site': 'none',
-    'sec-fetch-mode': 'navigate',
-    'sec-fetch-user': '?1',
-    'sec-fetch-dest': 'document',
-    'accept-language': 'en-US,en;q=0.9',
-    'if-none-match': 'W/"2fc70-vY91R0aLlO6Z2K01qdIx3qYBCx8"',
-    }
+        'accept': 'application/json',
+        'accept-encoding': 'utf-8',
+        'accept-language': 'en-GB,en;q=0.9',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1',
+        'x-requested-with': 'XMLHttpRequest',
+        'app-platform': 'Iron',
+        'app-version': '2022.05.08.04',
+        'referer': 'https://stockx.com/'
+        }
     
     with requests.Session() as session:
-        r = session.post("https://xw7sbct9v6-dsn.algolia.net/1/indexes/products/query", params=algolia, verify=False, data=byte_payload, timeout=30)
+        r = session.post("https://xw7sbct9v6-dsn.algolia.net/1/indexes/products/query", params=algolia, verify=False, data=byte_payload, headers=header, timeout=30)
         results = r.json()["hits"][selection]
         apiurl = f"https://stockx.com/api/products/{results['url']}?includes=market,360&currency=USD"
 
@@ -98,12 +96,26 @@ async def sx(ctx, *args):
     json_string = json.dumps({"params": f"query={keywords}&hitsPerPage=20&facets=*"})
     byte_payload = bytes(json_string, 'utf-8')
     params = {
-        "x-algolia-agent": "Algolia for vanilla JavaScript 3.32.0", 
+        "x-algolia-agent": "Algolia for JavaScript (4.8.4); Browser", 
         "x-algolia-application-id": "XW7SBCT9V6", 
         "x-algolia-api-key": "6b5e76b49705eb9f51a06d3c82f7acee"
     }
+    header = {
+        'accept': 'application/json',
+        'accept-encoding': 'utf-8',
+        'accept-language': 'en-GB,en;q=0.9',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1',
+        'x-requested-with': 'XMLHttpRequest',
+        'app-platform': 'Iron',
+        'app-version': '2022.05.08.04',
+        'referer': 'https://stockx.com/'
+        }
+    
     with requests.Session() as session:
-        r = session.post("https://xw7sbct9v6-dsn.algolia.net/1/indexes/products/query", params=params, verify=False, data=byte_payload, timeout=30)
+        r = session.post("https://xw7sbct9v6-dsn.algolia.net/1/indexes/products/query", params=params, verify=False, data=byte_payload, headers=heasder, timeout=30)
         numResults = len(r.json()["hits"])
         results = r.json()["hits"]
     
@@ -134,8 +146,7 @@ async def sx(ctx, *args):
         await ctx.send('No products found. Please try again.')
     elif numResults > 10:
         await ctx.send('Too many products found. Please try again.')
-
-# .portfolio command removed due to login requiring javascript
     
 if __name__ == "__main__":
+    requests.packages.urllib3.disable_warnings()
     client.run(token)
